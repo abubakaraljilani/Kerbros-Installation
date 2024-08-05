@@ -1,0 +1,51 @@
+######################
+     Authorization
+######################
+
+
+
+## HDFS adopts the authorization schema common to POSIX filesysytem
+
+## Checking if ACL's are enable in hdfs 
+
+-> Go CM
+-> HDFS -> Configuration -> serach - acl
+
+
+## On terminal
+
+hdfs dfs -mkdir -p /<data>/<userc>
+hdfs dfs  -chown <userc>:<dev> /data/userc
+hdfs dfs -ls /data
+
+hdfs dfs -getfacl /data/userc
+
+hdfs dfs -setfacl -m user:usera:r-x /data/userc
+hdfs dfs -setfacl -m group:<testers>:rwx /data/userc
+hdfs dfs -getfacl /data/userc
+
+hdfs dfs -chmod 750 /data/userc
+hdfs dfs -getfacl /data/userc
+
+hdfs dfs -setfacl -b /data/userc
+hdfs dfs -getfacl /data/userc
+
+
+## setfacl commond and its option
+hdfs dfs -setfacl [-R] [-b|-k-ml-x <acl_spec> <path>] | [--set <acl_spec> <path>]
+
+<!-- COMMAND OPTIONS
+
+<path>: Path to the file or directory for which ACLS should be set.
+-R: Use this option to recursively list ACLS for all files and directories.
+-b: Revoke all permissions except the base ACLS for user, groups and others.
+-k: Remove the default ACL.
+-m: Add new permissions to the ACL with this option. Does not affect existing permissions.
+-x: Remove only the ACL specified.
+<acl_spec>: Comma-separated list of ACL permissions.
+--set: Use this option to completely replace the existing ACL for the path specified. Previous ACL entries will no longer apply.
+
+## Enabling sticky bits
+
+hdfs dfs -chmod +t /data
+hdfs dfs -ls / | grep data
